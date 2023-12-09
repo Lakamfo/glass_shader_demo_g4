@@ -1,0 +1,129 @@
+[gd_scene load_steps=20 format=3 uid="uid://ovmutept7hu0"]
+
+[ext_resource type="PackedScene" uid="uid://c1ftgksi1xppv" path="res://forest_scene/scene.gltf" id="1_21rmo"]
+[ext_resource type="Material" uid="uid://pte74tu1bb1a" path="res://glass_shader/glass_mat.tres" id="2_0qgdq"]
+[ext_resource type="Shader" path="res://glass_shader/glass_shader_text.gdshader" id="3_lude4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_armr0"]
+sky_top_color = Color(0.592157, 0.737255, 0.854902, 1)
+sky_horizon_color = Color(0.87549, 0.904902, 0.926471, 1)
+ground_bottom_color = Color(0.909804, 0.882353, 0.85098, 1)
+ground_horizon_color = Color(0.87549, 0.904902, 0.926471, 1)
+
+[sub_resource type="Sky" id="Sky_5ph4p"]
+sky_material = SubResource("ProceduralSkyMaterial_armr0")
+
+[sub_resource type="Environment" id="Environment_igo55"]
+background_mode = 2
+sky = SubResource("Sky_5ph4p")
+tonemap_mode = 2
+ssr_enabled = true
+glow_enabled = true
+volumetric_fog_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_em3fw"]
+material = ExtResource("2_0qgdq")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_c11yx"]
+frequency = 0.0015
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7p0ut"]
+in_3d_space = true
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_c11yx")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k3dbk"]
+noise_type = 3
+frequency = 0.181
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_77ahk"]
+seamless = true
+noise = SubResource("FastNoiseLite_k3dbk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r730l"]
+render_priority = 0
+shader = ExtResource("3_lude4")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/noise_strenght = 0.005
+shader_parameter/roughness = 0.404
+shader_parameter/normal_strenght = 1.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_77ahk")
+shader_parameter/Normal = SubResource("NoiseTexture2D_7p0ut")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xlpwb"]
+material = SubResource("ShaderMaterial_r730l")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1e36c"]
+frequency = 0.0015
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rnl4m"]
+in_3d_space = true
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_1e36c")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_t8vib"]
+noise_type = 3
+frequency = 0.181
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_seowi"]
+seamless = true
+noise = SubResource("FastNoiseLite_t8vib")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4gbyl"]
+render_priority = 0
+shader = ExtResource("3_lude4")
+shader_parameter/tint_color = Color(0.431373, 0.658824, 0.6, 1)
+shader_parameter/noise_strenght = 0.005
+shader_parameter/roughness = 0.404
+shader_parameter/normal_strenght = 1.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_seowi")
+shader_parameter/Normal = SubResource("NoiseTexture2D_rnl4m")
+
+[sub_resource type="SphereMesh" id="SphereMesh_8vwwp"]
+material = SubResource("ShaderMaterial_4gbyl")
+radius = 1.0
+height = 2.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_21rmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="environment&lighting" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="environment&lighting"]
+environment = SubResource("Environment_igo55")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment&lighting"]
+transform = Transform3D(-0.978148, -0.115962, 0.172569, 0, 0.830012, 0.557745, -0.207912, 0.545557, -0.811875, 0, 23, 0)
+shadow_enabled = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="environment&lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 5, 0)
+light_energy = 9.577
+shadow_enabled = true
+shadow_opacity = 0.8
+omni_range = 19.0
+
+[node name="glass" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="glass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("SphereMesh_em3fw")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="glass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3, 0)
+mesh = SubResource("SphereMesh_xlpwb")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="glass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, 0)
+mesh = SubResource("SphereMesh_8vwwp")
+
+[node name="Camera3D" type="Camera3D" parent="glass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 3, 5)

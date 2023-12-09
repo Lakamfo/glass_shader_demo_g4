@@ -1,0 +1,11 @@
+Model Information:
+* title:	Forest Demo
+* source:	https://sketchfab.com/3d-models/forest-demo-1269b7e00f9d4ce09931c0c95967bc33
+* author:	patrix (https://sketchfab.com/patrix)
+
+Model License:
+* license type:	CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)
+* requirements:	Author must be credited. Modified versions must have the same license. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Forest Demo" (https://sketchfab.com/3d-models/forest-demo-1269b7e00f9d4ce09931c0c95967bc33) by patrix (https://sketchfab.com/patrix) licensed under CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)
