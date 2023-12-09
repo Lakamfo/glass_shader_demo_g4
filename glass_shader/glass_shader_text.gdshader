@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, diffuse_lambert, specular_schlick_ggx;
 
+group_uniforms Parameters;
 uniform vec4 tint_color : source_color = vec4(0.443137, 0.368627, 1.000000, 0.611765);
 uniform float noise_strenght : hint_range(0, 0.05) = 0.005;
 uniform float roughness : hint_range(0, 1) = 0;
