@@ -3,6 +3,7 @@ render_mode blend_mix, depth_draw_opaque, diffuse_lambert, specular_schlick_ggx;
 
 group_uniforms Parameters;
 uniform vec4 tint_color : source_color = vec4(0.443137, 0.368627, 1.000000, 0.611765);
+uniform vec4 backlight_color : source_color = vec4(0.5, 0.5, 0.5, 1.000000);
 uniform float noise_strenght : hint_range(0, 0.05) = 0.005;
 uniform float roughness : hint_range(0, 1) = 0;
 group_uniforms Textures;
@@ -22,8 +23,6 @@ void fragment() {
 	
 	vec4 normal = texture(Normal, UV);
 	vec3 normal_map = vec3(normal.rgb) * vec3(normal_strenght);
-	
-	vec4 backlight_color = vec4(0.5, 0.5, 0.5, 1.000000);
 	
 	ALBEDO = vec3(_screen_texture.rgb);
 	ROUGHNESS = roughness;
